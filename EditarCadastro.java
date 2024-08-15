@@ -13,34 +13,36 @@ public class EditarCadastro extends JFrame {
     private final JLabel emailJLabel = new JLabel("Digite o email:");
     private final JLabel senhaJLabel = new JLabel("Digite a senha:");
     private final JLabel notificacaoJLabel = new JLabel("Notificações:");
-    private final JButton consultarJButton = new JButton("🔎");
+    private final JButton consultarNomeJButton = new JButton("🔎 Nome");
+    private final JButton consultarEmailJButton = new JButton("🔎 Email");
     private final JButton incluirJButton = new JButton("Incluir");
     private final JButton atualizarJButton = new JButton("Atualizar");
     private final JButton excluirJButton = new JButton("Excluir");
     private final JButton limparJButton = new JButton("Limpar");
-    private final JButton primeiroRegistroJButton = new JButton("<<");
-    private final JButton registroAnteriorJButton = new JButton("<");
-    private final JButton proximoRegistroJButton = new JButton(">");
-    private final JButton ultimoRegistroJButton = new JButton(">>");
+    private final JButton primeiroRegistroJButton = new JButton("<< Primeiro");
+    private final JButton registroAnteriorJButton = new JButton("< Anterior");
+    private final JButton proximoRegistroJButton = new JButton("Proximo >");
+    private final JButton ultimoRegistroJButton = new JButton("Ultimo >>");
 
     public EditarCadastro() {
 
         super("Editar Cadastro");
-        setLayout(new GridLayout(6, 4, 5, 5));
+        setLayout(new GridLayout(7, 3, 5, 5));
 
         idTextField.setEditable(false);
         idTextField.setToolTipText("Não pode ser mudado!");
-        consultarJButton.setToolTipText("Consultar cadastro");
+        consultarNomeJButton.setToolTipText("Consultar nome");
+        consultarEmailJButton.setToolTipText("Consultar Email");
         incluirJButton.setToolTipText("Incluir cadastro");
         atualizarJButton.setToolTipText("Atualizar cadastro");
         excluirJButton.setToolTipText("Excluir cadastro");
-        limparJButton.setToolTipText("Limpar campos");
+        limparJButton.setToolTipText("Limpar campo");
         primeiroRegistroJButton.setToolTipText("Primeiro registro");
         registroAnteriorJButton.setToolTipText("Registro antetior");
         proximoRegistroJButton.setToolTipText("Proximo registro");
         ultimoRegistroJButton.setToolTipText("Ultimo registro");
         
-        consultarJButton.addActionListener(new ActionListener() {
+        consultarNomeJButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent event){
                 String[] resultado;
                 String nome;
@@ -49,7 +51,7 @@ public class EditarCadastro extends JFrame {
                     emailTextField.setText("");
                     senhaPasswordField.setText("");
                     nome = nomeTextField.getText();
-                    resultado = NavegadorDeRegistro.irParaRegistro("db_teste", "tbl_teste", "0", nome);
+                    resultado = NavegadorDeRegistro.irParaRegistro("db_teste", "tbl_teste", "0", nome );
                     notificacaoJLabel.setText("Registro posicionado com sucesso");
                     idTextField.setText(resultado[0]);
                     nomeTextField.setText(resultado[1]);
@@ -65,6 +67,33 @@ public class EditarCadastro extends JFrame {
                 }
             }
         }); 
+
+        consultarEmailJButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent event){
+                String[] resultado;
+                String email;
+                try{
+                    idTextField.setText("");
+                    nomeTextField.setText("");
+                    emailTextField.setText("");
+                    senhaPasswordField.setText("");
+                    email = emailTextField.getText(); 
+                    resultado = NavegadorDeRegistro.irParaRegistro("db_teste", "tbl_teste", "0", email);
+                    notificacaoJLabel.setText("Registro posicionado com sucesso");
+                    idTextField.setText(resultado[0]);
+                    nomeTextField.setText(resultado[1]);
+                    emailTextField.setText(resultado[2]);
+                    senhaPasswordField.setText(resultado[3]);
+                    primeiroRegistroJButton.setEnabled(true);
+                    registroAnteriorJButton.setEnabled(true);
+                    proximoRegistroJButton.setEnabled(true);
+                    ultimoRegistroJButton.setEnabled(true);
+                } catch(Exception e) {
+                    System.out.println("Ocorreu erro ao executar o comando: " + e);
+                    return;
+                }
+            }
+        });
 
         incluirJButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent event){
@@ -271,28 +300,41 @@ public class EditarCadastro extends JFrame {
         
         add(idJLabel);
         add(idTextField);
-        add(limparJButton);
-        add(consultarJButton);
+        //add(limparJButton);
+        add(incluirJButton);
+        //add(new JLabel());
 
         add(nomeJLabel);
         add(nomeTextField);
-        add(new JLabel());
-        add(incluirJButton);
+        add(consultarNomeJButton);
+        //
 
         add(emailJLabel);
         add(emailTextField);
-        add(new JLabel());
-        add(atualizarJButton);
+        add(consultarEmailJButton);
+        //
 
         add(senhaJLabel);
         add(senhaPasswordField);
-        add(new JLabel());
-        add(excluirJButton);
+        add(atualizarJButton);
+        //add(new JLabel());
+        //add(new JLabel());
         
-        add(primeiroRegistroJButton);
+        
         add(registroAnteriorJButton);
         add(proximoRegistroJButton);
+        add(excluirJButton);
+        
+
+        add(primeiroRegistroJButton);
         add(ultimoRegistroJButton);
+        add(limparJButton);
+
+        //
+
+
+        //
+        
         
         add(notificacaoJLabel);
 
